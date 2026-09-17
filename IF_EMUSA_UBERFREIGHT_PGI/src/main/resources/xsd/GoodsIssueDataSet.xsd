@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<!-- ===================== ROOT ===================== -->
+	<xs:element name="GoodsIssueDataSet" type="GoodsIssueDataSetType"/>
+
+	<xs:complexType name="GoodsIssueDataSetType">
+		<xs:sequence>
+			<xs:element name="GoodsIssueData" type="GoodsIssueDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ===================== GoodsIssueData ===================== -->
+	<xs:complexType name="GoodsIssueDataType">
+		<xs:sequence>
+			<xs:element name="GoodsIssuedFreights" type="GoodsIssuedFreightsWrapperType" minOccurs="0"/>
+			<xs:element name="DomainId" type="xs:string" minOccurs="1"/>
+			<xs:element name="AccountId" type="xs:string" minOccurs="1"/>
+			<xs:element name="DeliveryNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SupportInfos" type="SupportInfosWrapperType" minOccurs="0"/>
+			<xs:element name="LoadId" type="xs:string" minOccurs="0"/>
+			<xs:element name="ShipLookupReferenceValue" type="xs:string" minOccurs="1"/>
+			<xs:element name="ShipmentLookupReferenceName" type="xs:string" minOccurs="1"/>
+			<xs:element name="SCAC" type="xs:string" minOccurs="1"/>
+			<xs:element name="modeType" type="xs:string" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ===================== GoodsIssuedFreights (wrapper + array) ===================== -->
+	<xs:complexType name="GoodsIssuedFreightsWrapperType">
+		<xs:sequence>
+			<xs:element name="GoodsIssuedFreights" type="GoodsIssuedFreightItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GoodsIssuedFreightItemType">
+		<xs:sequence>
+			<xs:element name="LineItems" type="LineItemsWrapperType" minOccurs="0"/>
+			<xs:element name="DestinationLocationId" type="xs:string" minOccurs="0"/>
+			<xs:element name="OriginStopSequenceNumber" type="xs:integer" minOccurs="0"/>
+			<xs:element name="OriginLocationId" type="xs:string" minOccurs="0"/>
+			<xs:element name="SupportInfos" type="SupportInfosWrapperType" minOccurs="0"/>
+			<xs:element name="References" type="ReferencesWrapperType" minOccurs="0"/>
+			<xs:element name="Destinationstopsequencenumber" type="xs:integer" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ===================== LineItems (wrapper + array) ===================== -->
+	<xs:complexType name="LineItemsWrapperType">
+		<xs:sequence>
+			<xs:element name="LineItems" type="LineItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LineItemType">
+		<xs:sequence>
+			<xs:element name="FreightType" type="xs:string" minOccurs="0"/>
+			<xs:element name="Action" type="xs:string" minOccurs="0"/>
+			<xs:element name="CommodityDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="WeightUom" type="xs:string" minOccurs="0"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="Quantity" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ProductNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="LtlClass" type="xs:string" minOccurs="0"/>
+			<xs:element name="Weight" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="HandlingUnit" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Nmfc" type="xs:string" minOccurs="0"/>
+			<xs:element name="HandlingUnitUom" type="xs:string" minOccurs="0"/>
+			<xs:element name="Id" type="xs:integer" minOccurs="0"/>
+			<xs:element name="QuantityUom" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ===================== SupportInfos (wrapper + array), reused at multiple levels ===================== -->
+	<xs:complexType name="SupportInfosWrapperType">
+		<xs:sequence>
+			<xs:element name="SupportInfos" type="SupportInfoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SupportInfoType">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:string" minOccurs="0"/>
+			<xs:element name="Name" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ===================== References (wrapper + array) ===================== -->
+	<xs:complexType name="ReferencesWrapperType">
+		<xs:sequence>
+			<xs:element name="References" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReferenceType">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:string" minOccurs="0"/>
+			<xs:element name="Name" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

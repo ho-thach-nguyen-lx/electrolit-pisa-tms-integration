@@ -1,0 +1,1484 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TMS ERP Customer APIs",
+    "description": "APIs for TMS shippers to manage shipments and obtain cost estimates.\n\nEnvironment specific base urls -\n\n**UAT** - **uatapi.uberfreight.com**\n\n**PROD** - **api.uberfreight.com**\n",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://uatapi.uberfreight.com/tp-api/customer"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "health"
+    },
+    {
+      "name": "customer"
+    }
+  ],
+  "paths": {
+    "/v2/post-goods-issued": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Goods Issued API",
+        "description": "This API is used to submit a POST GOODS ISSUED (PGI) document.\n",
+        "operationId": "inbound-uat-REST-POST-customer-post-goods-issued-KAFKA-tms.inboundDocument.uat",
+        "requestBody": {
+          "description": "Goods issued posted by customer",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsIssued"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsIssued"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AckMessageResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/AckMessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApiResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApiResponse"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "content": {}
+          },
+          "415": {
+            "description": "Unsupported media type",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApiResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AckMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Response message with success acknowledgment"
+          }
+        },
+        "description": "Ack Message"
+      },
+      "AckMessageResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true,
+            "description": "Success status of request received with either true or false"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "ID-TPPRODAPI-1621542663189-UwxRtgodixHH",
+            "description": "Trace id for this request."
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1,
+            "description": "Total specifies number of items if response data is a list"
+          },
+          "data": {
+            "description": "Ack response returned by the service.",
+            "$ref": "#/components/schemas/AckMessage"
+          }
+        },
+        "description": "Acknowledgement Response returned",
+        "xml": {
+          "name": "ackMessageResponse"
+        }
+      },
+      "ErrorApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true,
+            "description": "Success status of request received with either true or false"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "ID-TPPRODAPI-1621542663189-UwxRtgodixHH",
+            "description": "Trace id for this request."
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1,
+            "description": "Total specifies number of items if response data is a list"
+          },
+          "errors": {
+            "type": "array",
+            "description": "Error list",
+            "items": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
+        },
+        "xml": {
+          "name": "errorResponse"
+        },
+        "description": "Error response returned"
+      },
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "INTERNAL_SERVER_ERROR",
+            "description": "Error Type"
+          },
+          "message": {
+            "type": "string",
+            "example": "Internal error occurred. Trace id provided for reference. Please try again later.",
+            "description": "Error message"
+          }
+        },
+        "description": "API Error Info"
+      },
+      "GoodsIssued": {
+        "required": [
+          "accountId",
+          "domainId",
+          "modeType",
+          "scac",
+          "shipmentLookupReferenceName",
+          "shipmentLookupReferenceValue"
+        ],
+        "type": "object",
+        "properties": {
+          "domainId": {
+            "type": "integer",
+            "description": "Customer Domain Id provided by Transplace",
+            "format": "int64",
+            "example": 123456789
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "Customer Account Id provided by Transplace",
+            "format": "int64",
+            "example": 123456789
+          },
+          "loadId": {
+            "type": "integer",
+            "description": "The Transplace load Id. If not provided, the load will be looked up using primaryReferenceName/Value",
+            "format": "int64",
+            "example": 123456789
+          },
+          "shipmentLookupReferenceName": {
+            "type": "string",
+            "description": "Name of the reference to use for looking up the load.",
+            "example": "SHIP ID"
+          },
+          "shipmentLookupReferenceValue": {
+            "type": "string",
+            "description": "Reference value used to lookup the load.",
+            "example": "ABC123456789"
+          },
+          "scac": {
+            "type": "string",
+            "description": "Standard Carrier Alpha Code. Max length 10."
+          },
+          "modeType": {
+            "type": "string",
+            "description": "Mode Type. Possible values: AIR=Air, INTERMODAL=Intermodal, LTL=LTL, OCEAN=Ocean, PARCEL=Parcel, RAIL=Rail, TRUCK=TL",
+            "enum": [
+              "TRUCK",
+              "RAIL",
+              "INTERMODAL",
+              "LTL",
+              "AIR",
+              "OCEAN",
+              "PARCEL"
+            ]
+          },
+          "transitSpeed": {
+            "type": "string",
+            "description": "Transit Speed.",
+            "enum": [
+              "DAY_DEFINITE",
+              "DEFERRED_3_TO_5_DAY",
+              "ECONOMY",
+              "EXPEDITED",
+              "EXPEDITED_2ND_DAY",
+              "EXPEDITED_3_DAY",
+              "EXPEDITED_3_TO_5_DAY",
+              "GUARANTEE",
+              "KOSHER",
+              "KOSHER_EXPEDITED",
+              "MILK_RUN",
+              "OVERNIGHT",
+              "PARCEL_GROUND",
+              "SHUTTLE",
+              "SHUTTLE_HALF_DAY",
+              "SHUTTLE_X2",
+              "SHUTTLE_X3",
+              "SOLO",
+              "STANDARD_LTL",
+              "STANDARD_TL",
+              "TEAM",
+              "TIME_DEFINITE"
+            ]
+          },
+          "powerId": {
+            "type": "string",
+            "description": "The Power Unit or Tractor Id. Max length 30."
+          },
+          "containerId": {
+            "type": "string",
+            "description": "The Container/Trailer Id. Max length 32."
+          },
+          "equipmentType": {
+            "type": "string",
+            "description": "Transplace equipment type code, such as DRYVAN, REEFER, TANKER. Max length 30."
+          },
+          "parcelServiceLevel": {
+            "type": "string",
+            "description": "Parcel service level."
+          },
+          "goodsIssuedStops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GoodsIssuedStop"
+            }
+          },
+          "checkCalls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CheckCall"
+            }
+          },
+          "goodsIssuedFreights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GoodsIssuedFreight"
+            }
+          },
+          "comments": {
+            "type": "array",
+            "description": "Max single comment length is 2000",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "shipmentReferences": {
+            "type": "array",
+            "description": "Shipment references to update.",
+            "items": {
+              "$ref": "#/components/schemas/Reference"
+            }
+          },
+          "supportInfos": {
+            "type": "array",
+            "description": "Shipment support infos to update.",
+            "items": {
+              "$ref": "#/components/schemas/SupportInfo"
+            }
+          },
+          "typedComments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TypedComment"
+            }
+          },
+          "soft": {
+            "type": "boolean",
+            "description": "tag for soft pgi"
+          }
+        },
+        "description": "Goods Issued"
+      },
+      "Reference": {
+        "required": [
+          "name",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "LOOKUP",
+              "UPDATE"
+            ]
+          }
+        },
+        "description": "Reference"
+      },
+      "SupportInfo": {
+        "required": [
+          "name",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "description": "Support Information"
+      },
+      "TypedComment": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Max single comment length is 2000"
+          },
+          "type": {
+            "type": "string",
+            "description": "Comment Type.",
+            "enum": [
+              "OPERATIONAL",
+              "CARRIER",
+              "CARRIER_ORIGINATED",
+              "CUSTOMER"
+            ]
+          }
+        },
+        "description": "Typed Comment"
+      },
+      "Contact": {
+        "required": [
+          "name",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ACCOUNT",
+              "BILL_TO",
+              "BUYER",
+              "CARRIER",
+              "LOCATION",
+              "SELLER",
+              "SOLICITOR",
+              "HAZMAT",
+              "PRODUCER",
+              "EXPORTER",
+              "PURCHASER",
+              "ENDUSER",
+              "AUTHAGENT",
+              "CONSIGNEE"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "phoneExtension": {
+            "type": "string"
+          },
+          "faxNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "description": "Contact"
+      },
+      "Address": {
+        "required": [
+          "address1",
+          "city",
+          "zip"
+        ],
+        "type": "object",
+        "properties": {
+          "address1": {
+            "type": "string",
+            "description": "Address line 1. Max length 55"
+          },
+          "address2": {
+            "type": "string"
+          },
+          "address3": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string",
+            "description": "City name. Max length 50"
+          },
+          "county": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "description": "State code. Max length 2. Example, TX"
+          },
+          "zip": {
+            "type": "string",
+            "description": "ZIP/Postal code. Max length 12"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country code. Max length 3. Example, USA"
+          },
+          "latitude": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "string"
+          }
+        },
+        "description": "Address"
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Transplace location Id"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "faxNumber": {
+            "type": "string"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        },
+        "description": "Location"
+      },
+      "GoodsIssuedStop": {
+        "required": [
+          "sequenceNumber",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "sequenceNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "locationId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PICKUP",
+              "DROPOFF",
+              "INTERLINE"
+            ]
+          },
+          "earliestDateTime": {
+            "type": "string",
+            "example": "2020-12-31 23:59",
+            "description": "The Earliest date and time should be in yyyy-MM-dd HH:mm format"
+          },
+          "latestDateTime": {
+            "type": "string",
+            "example": "2020-12-31 23:59",
+            "description": "The Latest date and time should be in yyyy-MM-dd HH:mm format"
+          },
+          "checkCalls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CheckCall"
+            }
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reference"
+            }
+          },
+          "supportInfos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportInfo"
+            }
+          },
+          "typedComments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TypedComment"
+            }
+          }
+        },
+        "description": "Goods Issued Stop"
+      },
+      "CheckCall": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "stopSequenceNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": "Check call type.",
+            "enum": [
+              "APP_CHANGE",
+              "ARRIVAL",
+              "CHECK_CALL",
+              "DEPARTURE",
+              "DISPATCHED",
+              "EAR_APP_CHANGE",
+              "ETA",
+              "GOODS_ISSUED",
+              "LAT_APP_CHANGE",
+              "LOADED",
+              "PARENT",
+              "UNLOADED"
+            ]
+          },
+          "weight": {
+            "type": "number",
+            "description": "Weight adjustment",
+            "format": "double"
+          },
+          "weightUOM": {
+            "type": "string",
+            "description": "Weight adjustment Unit of Measure.",
+            "enum": [
+              "KG",
+              "LBS",
+              "TONS",
+              "HW",
+              "OZ",
+              "GR",
+              "TONE",
+              "TONL"
+            ]
+          },
+          "handlingUnit": {
+            "type": "number",
+            "description": "Handling Unit adjustment",
+            "format": "double"
+          },
+          "handlingUnitUOM": {
+            "type": "string",
+            "description": "Handling Unit Unit of Measure.",
+            "enum": [
+              "AY",
+              "BBD",
+              "BBR",
+              "BD",
+              "BEAM",
+              "BG",
+              "BGW",
+              "BIN",
+              "BK",
+              "BL",
+              "BLK",
+              "BLOCK",
+              "BO",
+              "BR",
+              "BS",
+              "BX",
+              "C",
+              "CA",
+              "CARBOY",
+              "CBC",
+              "CC",
+              "CF",
+              "CG",
+              "CI",
+              "CM",
+              "CN",
+              "CNB",
+              "CND",
+              "CNT",
+              "COI",
+              "CQ",
+              "CRT",
+              "CS",
+              "CTN",
+              "CTO",
+              "CU",
+              "CUBITAINER",
+              "CW",
+              "CY",
+              "CYL",
+              "DBK",
+              "DELCAN",
+              "DR",
+              "DW",
+              "DZ",
+              "EA",
+              "ECF",
+              "FSU",
+              "FT",
+              "GA",
+              "GAYLORD",
+              "GOH",
+              "GR",
+              "GY",
+              "HAF",
+              "HF",
+              "HG",
+              "HO",
+              "HR",
+              "HSF",
+              "HSL",
+              "HU",
+              "HUL",
+              "IM",
+              "IN",
+              "IW",
+              "JO",
+              "JR",
+              "K",
+              "KEG",
+              "KG",
+              "KM",
+              "KT",
+              "LAF",
+              "LB",
+              "LF",
+              "LINE",
+              "LM",
+              "LOOSE",
+              "LOT",
+              "LT",
+              "LY",
+              "MF",
+              "MF2",
+              "MG",
+              "MK",
+              "ML",
+              "MLG",
+              "MS",
+              "MSC",
+              "MT",
+              "MX",
+              "MY",
+              "OCT",
+              "OP",
+              "OZ",
+              "P3",
+              "P4",
+              "P5",
+              "P6",
+              "P8",
+              "PAF",
+              "PAL",
+              "PAT",
+              "PB",
+              "PCS",
+              "PD",
+              "PH",
+              "PKG",
+              "PL",
+              "PLN",
+              "PLT",
+              "PLTTK",
+              "PR",
+              "PRT",
+              "PT",
+              "QP",
+              "QT",
+              "RA",
+              "RAK",
+              "RC",
+              "REL",
+              "RL",
+              "RM",
+              "SF",
+              "SH",
+              "SI",
+              "SK",
+              "SLB",
+              "SLGBG",
+              "SM",
+              "SO",
+              "SQYD",
+              "SS",
+              "SSK",
+              "ST",
+              "STE",
+              "SV",
+              "TB",
+              "TE",
+              "TH",
+              "TI",
+              "TK",
+              "TL",
+              "TON",
+              "TONL",
+              "TONNE",
+              "TONNER",
+              "TP",
+              "TU",
+              "TUB",
+              "TW",
+              "TY",
+              "UL",
+              "UN",
+              "UNP",
+              "VI",
+              "WRP",
+              "YD",
+              "YT"
+            ]
+          },
+          "cube": {
+            "type": "number",
+            "format": "double"
+          },
+          "cubeUOM": {
+            "type": "string",
+            "description": "Cube Unit of Measure.",
+            "enum": [
+              "BR",
+              "C",
+              "CCM",
+              "CF",
+              "CI",
+              "CM",
+              "DM3",
+              "GAL",
+              "KL",
+              "LT",
+              "MCF",
+              "PCT",
+              "SI"
+            ]
+          },
+          "reasonCode": {
+            "type": "string",
+            "description": "The reason for the update."
+          },
+          "secondaryReasonCode": {
+            "type": "string"
+          },
+          "reasonDescription": {
+            "type": "string"
+          },
+          "loadUnloadActivityType": {
+            "type": "string",
+            "description": "Load/Unload activity type.",
+            "enum": [
+              "LIVELOAD",
+              "PRELOADED",
+              "DRIVERLOAD",
+              "DRIVERUNLOAD",
+              "LIVEUNLOAD",
+              "DROP"
+            ]
+          },
+          "dateTime": {
+            "type": "string",
+            "description": "The date and time of the event in yyyy-MM-dd HH:mm format",
+            "example": "2020-12-31 23:59"
+          },
+          "timeZone": {
+            "type": "string",
+            "description": "The time zone GMT offset, such as GMT-06:00 or GMT+10:00",
+            "example": "GMT-06:00"
+          },
+          "lastKnownPosition": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string",
+            "description": "Status code. Max length 10."
+          },
+          "secondaryStatusCode": {
+            "type": "string",
+            "description": "Secondary status code. Max length 64."
+          },
+          "statusDescription": {
+            "type": "string",
+            "description": "Status description. Max length 1000."
+          },
+          "latitude": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "string"
+          },
+          "distanceToNextEvent": {
+            "type": "number",
+            "description": "Distance to next event in miles",
+            "format": "double"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "locationName": {
+            "type": "string",
+            "description": "Check call location name. Max length 50."
+          },
+          "driverFirstName": {
+            "type": "string",
+            "description": "Driver first name. Max length 40."
+          },
+          "driverLastName": {
+            "type": "string",
+            "description": "Driver last name. Max length 60."
+          },
+          "driverPhone": {
+            "type": "string",
+            "description": "Driver phone number. Max length 30."
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Current reefer container temperature",
+            "format": "double"
+          },
+          "temperatureUOM": {
+            "type": "string",
+            "description": "Temperature Unit of Measure.",
+            "enum": [
+              "F",
+              "C"
+            ]
+          },
+          "comments": {
+            "type": "array",
+            "description": "Max single comment length is 2000",
+            "items": {
+              "type": "string"
+            }
+          },
+          "trackingNumber": {
+            "type": "string",
+            "description": "Tracking number"
+          },
+          "containerNumber": {
+            "type": "string",
+            "example": "ULX-12345795",
+            "description": "Container number. Max length 30."
+          },
+          "typedComments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TypedComment"
+            }
+          }
+        },
+        "description": "Check Call"
+      },
+      "GoodsIssuedFreight": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "ADD",
+              "UPDATE",
+              "CANCEL"
+            ]
+          },
+          "originLocationId": {
+            "type": "string"
+          },
+          "originStopSequenceNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "destinationLocationId": {
+            "type": "string"
+          },
+          "destinationStopSequenceNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mustShipByDateTime": {
+            "type": "string",
+            "description": "The date and time in yyyy-MM-dd HH:mm format",
+            "example": "2020-12-31 23:59"
+          },
+          "mustArriveByDateTime": {
+            "type": "string",
+            "description": "The date and time in yyyy-MM-dd HH:mm format",
+            "example": "2020-12-31 23:59"
+          },
+          "requestedEarliestPickupDateTime": {
+            "type": "string",
+            "example": "2020-12-31 23:59",
+            "description": "The requested earliest pickup date and time in yyyy-MM-dd HH:mm format"
+          },
+          "requestedLatestPickupDateTime": {
+            "type": "string",
+            "example": "2020-12-31 23:59",
+            "description": "The requested latest pickup date and time in yyyy-MM-dd HH:mm format"
+          },
+          "requestedEarliestDeliveryDateTime": {
+            "type": "string",
+            "example": "2020-12-31 23:59",
+            "description": "The requested earliest delivery date and time in yyyy-MM-dd HH:mm format"
+          },
+          "requestedLatestDeliveryDateTime": {
+            "type": "string",
+            "example": "2020-12-31 23:59",
+            "description": "The requested latest delivery date and time in yyyy-MM-dd HH:mm format"
+          },
+          "orderType": {
+            "type": "string"
+          },
+          "businessUnit": {
+            "type": "string"
+          },
+          "glCode": {
+            "type": "string",
+            "description": "General Ledger Code. Max length 128."
+          },
+          "customerGroupId": {
+            "type": "string",
+            "description": "If the customerGroupId is set, and this order does not already exist in Transplace TMS, and Transplace TMS is configured to create new orders from a GoodsIssued, then Transplace TMS will attempt to group/consolidate the order with an existing order with same customerGroupId."
+          },
+          "lineItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineItem"
+            }
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reference"
+            }
+          },
+          "supportInfos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportInfo"
+            }
+          },
+          "typedComments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TypedComment"
+            }
+          }
+        },
+        "description": "Goods Issued Freight"
+      },
+      "LineItem": {
+        "required": [
+          "action",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The action to be taken.",
+            "enum": [
+              "ADD",
+              "UPDATE",
+              "CANCEL"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "Customer line item id. Required."
+          },
+          "productNumber": {
+            "type": "string",
+            "description": "Customer product number."
+          },
+          "description": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "integer",
+            "description": "Transplace product Id. Must be configured in Transplace TMS.",
+            "format": "int64"
+          },
+          "freightType": {
+            "type": "string",
+            "description": "Transplace freight type code, such as DRY, FRESH, FROZEN, PRODUCE. Must be configured in Transplace TMS."
+          },
+          "commodityCode": {
+            "type": "string",
+            "description": "Commodity Type Code."
+          },
+          "commodityDescription": {
+            "type": "string"
+          },
+          "ltlClass": {
+            "type": "number",
+            "description": "LTL Class.",
+            "format": "double"
+          },
+          "upc": {
+            "type": "string",
+            "description": "Universal Product Code"
+          },
+          "food": {
+            "type": "string",
+            "enum": [
+              "TRUE",
+              "FALSE"
+            ]
+          },
+          "stackable": {
+            "type": "string",
+            "enum": [
+              "TRUE",
+              "FALSE"
+            ]
+          },
+          "hazmat": {
+            "type": "string",
+            "enum": [
+              "TRUE",
+              "FALSE"
+            ]
+          },
+          "hazmatContactName": {
+            "type": "string",
+            "description": "Required if hazmat"
+          },
+          "hazmatContactPhone": {
+            "type": "string",
+            "description": "Required if hazmat"
+          },
+          "hazmatContactEmail": {
+            "type": "string",
+            "description": "Required if hazmat"
+          },
+          "unClassDescription": {
+            "type": "string"
+          },
+          "technicalName": {
+            "type": "string"
+          },
+          "commodityRegulationCode": {
+            "type": "string",
+            "enum": [
+              "FULLY_REGULATED",
+              "LIMITED_QUANTITY",
+              "EXCEPTED_QUANTITY",
+              "LIGHTLY_REGULATED"
+            ]
+          },
+          "packingInstructions": {
+            "type": "string"
+          },
+          "packageType": {
+            "type": "string"
+          },
+          "unNumber": {
+            "type": "string"
+          },
+          "unClass": {
+            "type": "string"
+          },
+          "productAvailabilityDateTime": {
+            "type": "string",
+            "example": "2020-12-31 23:59"
+          },
+          "packingGroup": {
+            "type": "string"
+          },
+          "shippingName": {
+            "type": "string"
+          },
+          "nmfc": {
+            "type": "string"
+          },
+          "glCode": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantityUOM": {
+            "type": "string"
+          },
+          "handlingUnit": {
+            "type": "number",
+            "format": "double"
+          },
+          "handlingUnitUOM": {
+            "type": "string"
+          },
+          "packagingUnit": {
+            "type": "number",
+            "format": "double"
+          },
+          "packagingUnitUOM": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "weightUOM": {
+            "type": "string",
+            "enum": [
+              "KG",
+              "LBS",
+              "TONS",
+              "HW",
+              "OZ",
+              "GR",
+              "TONE",
+              "TONL"
+            ]
+          },
+          "length": {
+            "type": "number",
+            "format": "double"
+          },
+          "lengthUOM": {
+            "type": "string",
+            "enum": [
+              "LF",
+              "KM",
+              "MI",
+              "LC",
+              "LI",
+              "LM",
+              "M",
+              "FT",
+              "IN",
+              "YD",
+              "CM"
+            ]
+          },
+          "shippingHeight": {
+            "type": "number",
+            "format": "double"
+          },
+          "shippingHeightUOM": {
+            "type": "string",
+            "enum": [
+              "LF",
+              "KM",
+              "MI",
+              "LC",
+              "LI",
+              "LM",
+              "M",
+              "FT",
+              "IN",
+              "YD",
+              "CM"
+            ]
+          },
+          "shippingWidth": {
+            "type": "number",
+            "format": "double"
+          },
+          "shippingWidthUOM": {
+            "type": "string",
+            "enum": [
+              "LF",
+              "KM",
+              "MI",
+              "LC",
+              "LI",
+              "LM",
+              "M",
+              "FT",
+              "IN",
+              "YD",
+              "CM"
+            ]
+          },
+          "shippingLength": {
+            "type": "number",
+            "format": "double"
+          },
+          "shippingLengthUOM": {
+            "type": "string",
+            "enum": [
+              "LF",
+              "KM",
+              "MI",
+              "LC",
+              "LI",
+              "LM",
+              "M",
+              "FT",
+              "IN",
+              "YD",
+              "CM"
+            ]
+          },
+          "cube": {
+            "type": "number",
+            "format": "double"
+          },
+          "cubeUOM": {
+            "type": "string",
+            "enum": [
+              "BR",
+              "C",
+              "CCM",
+              "CF",
+              "CI",
+              "CM",
+              "DM3",
+              "GAL",
+              "KL",
+              "LT",
+              "MCF",
+              "PCT",
+              "SI"
+            ]
+          },
+          "area": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaUOM": {
+            "type": "string",
+            "enum": [
+              "FSU",
+              "MSF",
+              "MSM",
+              "SC",
+              "SF",
+              "SI",
+              "SM"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "amountUOM": {
+            "type": "string",
+            "enum": [
+              "CAD",
+              "DEM",
+              "EUR",
+              "GBP",
+              "INR",
+              "JPY",
+              "MXN",
+              "USD"
+            ]
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "references": {
+            "type": "array",
+            "description": "Line Item level references.",
+            "items": {
+              "$ref": "#/components/schemas/Reference"
+            }
+          },
+          "supportInfos": {
+            "type": "array",
+            "description": "Line Item level support info (additional) fields.",
+            "items": {
+              "$ref": "#/components/schemas/SupportInfo"
+            }
+          },
+          "htsCode": {
+            "type": "string"
+          },
+          "satProductId": {
+            "type": "string"
+          },
+          "satProductDescription": {
+            "type": "string"
+          },
+          "satHazmatCode": {
+            "type": "string"
+          },
+          "hazmatPackagingCode": {
+            "type": "string"
+          },
+          "htsNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "htsString": {
+            "type": "string"
+          },
+          "satUom": {
+            "type": "string"
+          },
+          "exportClassID": {
+            "type": "string"
+          },
+          "originISOCountryNumber": {
+            "type": "string"
+          },
+          "exportType": {
+            "type": "string",
+            "enum": [
+              "ECCN",
+              "ITAR_USML",
+              "HS_CODE",
+              "SCHEDULE_B_CODE"
+            ]
+          },
+          "chemical": {
+            "type": "string"
+          },
+          "dangerousGoodsClass": {
+            "type": "string",
+            "enum": [
+              "FULLY_REGULATED",
+              "UN3373",
+              "UN1845",
+              "LESS_THAN_500kg_EXEMPT",
+              "LIMITED_QUANTITIES"
+            ]
+          },
+          "regulationSet": {
+            "type": "string",
+            "enum": [
+              "ADR",
+              "CFR",
+              "IATA",
+              "TDG"
+            ]
+          }
+        },
+        "description": "Line Item"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 with Client Credentials grant type",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://uatapi.uberfreight.com/oauth2/accesstoken",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  }
+}
