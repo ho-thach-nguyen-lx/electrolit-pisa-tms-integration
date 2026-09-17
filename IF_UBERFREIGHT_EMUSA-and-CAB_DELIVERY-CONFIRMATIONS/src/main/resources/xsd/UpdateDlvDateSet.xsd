@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xs:element name="UpdateDlvDateSet">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="UpdateDlvDate" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Delivery" type="xs:string">
+                                <xs:annotation>
+                                    <xs:documentation>Delivery number/ID, e.g. 0080009571</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="FinDlvDate" type="xs:dateTime">
+                                <xs:annotation>
+                                    <xs:documentation>Final delivery date/time, ISO 8601 format (e.g. 2025-12-22T22:01:00)</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
