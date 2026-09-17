@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified">
+
+    <xs:element name="CreateTUSet">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="CreateTU"
+                    maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Delivery"
+                                type="xs:string" />
+                            <xs:element name="Mtr"
+                                type="xs:string"
+                                minOccurs="0" />
+                            <xs:element name="Carrier"
+                                type="xs:string"
+                                minOccurs="0" />
+                            <xs:element name="StartPlanTstfr"
+                                type="xs:dateTime"
+                                minOccurs="0" />
+                            <xs:element name="StartPlanTstto"
+                                type="xs:dateTime"
+                                minOccurs="0" />
+                            <xs:element name="EndPlanTstfr"
+                                type="xs:dateTime"
+                                minOccurs="0" />
+                            <xs:element name="EndPlanTstto"
+                                type="xs:dateTime"
+                                minOccurs="0" />
+                            <xs:element name="LicPlate"
+                                type="xs:string"
+                                minOccurs="0" />
+                            <xs:element name="TUNumExt"
+                                type="xs:string"
+                                minOccurs="0" />
+                            <xs:element name="SCAC"
+                                type="xs:string"
+                                minOccurs="0" />
+                            <xs:element name="SealNum1"
+                                type="xs:string"
+                                minOccurs="0" />
+                            <xs:element name="SealNum2"
+                                type="xs:string"
+                                minOccurs="0" />
+                            <xs:element name="SealNum3"
+                                type="xs:string"
+                                minOccurs="0" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

@@ -1,0 +1,120 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Delivery API",
+    "description": "API for managing delivery and transport unit information",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/deliveries": {
+      "post": {
+        "summary": "Create or update a delivery record",
+        "operationId": "createDelivery",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Delivery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Delivery"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Delivery": {
+        "type": "object",
+        "properties": {
+          "Delivery": {
+            "type": "string",
+            "description": "Delivery number",
+            "example": "80005986"
+          },
+          "Mtr": {
+            "type": "string",
+            "description": "MTR (Material/Transport reference) number",
+            "example": "0002"
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier identification number",
+            "example": "0100010627"
+          },
+          "StartPlanTstfr": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Planned start timestamp (from)",
+            "example": "2026-07-28T08:00:00Z"
+          },
+          "StartPlanTstto": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Planned start timestamp (to)",
+            "example": "2026-07-28T08:00:00Z"
+          },
+          "EndPlanTstfr": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Planned end timestamp (from)",
+            "example": "2026-07-28T08:00:00Z"
+          },
+          "EndPlanTstto": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Planned end timestamp (to)",
+            "example": "2026-07-28T08:00:00Z"
+          },
+          "LicPlate": {
+            "type": "string",
+            "description": "License plate number of the vehicle",
+            "example": ""
+          },
+          "TUNumExt": {
+            "type": "string",
+            "description": "External transport unit number",
+            "example": "123456"
+          },
+          "SCAC": {
+            "type": "string",
+            "description": "Standard Carrier Alpha Code",
+            "example": ""
+          },
+          "SealNum1": {
+            "type": "string",
+            "description": "First seal number",
+            "example": ""
+          },
+          "SealNum2": {
+            "type": "string",
+            "description": "Second seal number",
+            "example": ""
+          },
+          "SealNum3": {
+            "type": "string",
+            "description": "Third seal number",
+            "example": ""
+          }
+        },
+        "required": ["Delivery"]
+      }
+    }
+  }
+}
