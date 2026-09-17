@@ -1,0 +1,1102 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CarrierWaybill",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/waybills": {
+      "post": {
+        "summary": "Create waybill",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CarrierWaybillRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CarrierWaybillRequest": {
+        "type": "object",
+        "properties": {
+          "carrierId": {
+            "type": "integer"
+          },
+          "waybill": {
+            "$ref": "#/components/schemas/Waybill"
+          }
+        }
+      },
+      "Waybill": {
+        "type": "object",
+        "properties": {
+          "loadStatus": {
+            "type": "string"
+          },
+          "commodityCode": {
+            "type": "string"
+          },
+          "netWeightTons": {
+            "type": "number"
+          },
+          "originCityName": {
+            "type": "string"
+          },
+          "originStateOrProvince": {
+            "type": "string"
+          },
+          "originFsac": {
+            "type": "string"
+          },
+          "destinationCityName": {
+            "type": "string"
+          },
+          "destinationStateOrProvince": {
+            "type": "string"
+          },
+          "destinationFsac": {
+            "type": "string"
+          },
+          "consignorCustomerName": {
+            "type": "string"
+          },
+          "consigneeCustomerName": {
+            "type": "string"
+          },
+          "originScac": {
+            "type": "string"
+          },
+          "shipmentId": {
+            "type": "string"
+          },
+          "customsDocumentationHandlingCode": {
+            "type": "string"
+          },
+          "taxReasonCode": {
+            "type": "string"
+          },
+          "referencedPatternIdentifier": {
+            "type": "string"
+          },
+          "repetitivePatternNumber": {
+            "type": "integer"
+          },
+          "extendedReferenceInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExtendedReferenceInfo"
+            }
+          },
+          "crossReferenceEquipment": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "referenceIdQualifier": {
+                  "type": "string"
+                },
+                "referenceId": {
+                  "type": "string"
+                },
+                "equipmentInitial": {
+                  "type": "string"
+                },
+                "equipmentNumber": {
+                  "type": "integer"
+                },
+                "equipmentOwnerScac": {
+                  "type": "string"
+                },
+                "equipmentLength": {
+                  "type": "string"
+                },
+                "equipmentOperatorScac": {
+                  "type": "string"
+                },
+                "equipmentIsDamaged": {
+                  "type": "boolean"
+                },
+                "checkDigit": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "equipmentDetails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "equipmentInitial": {
+                  "type": "string"
+                },
+                "equipmentNumber": {
+                  "type": "integer"
+                },
+                "netWeightLbs": {
+                  "type": "number"
+                },
+                "grossWeightLbs": {
+                  "type": "number"
+                },
+                "tareWeightLbs": {
+                  "type": "number"
+                },
+                "weightAllowance": {
+                  "type": "number"
+                },
+                "dunnage": {
+                  "type": "number"
+                },
+                "descriptionCode": {
+                  "type": "string"
+                },
+                "owningCarrierCode": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "string"
+                },
+                "lengthIn": {
+                  "type": "number"
+                },
+                "checkDigit": {
+                  "type": "integer"
+                },
+                "heightIn": {
+                  "type": "number"
+                },
+                "widthIn": {
+                  "type": "number"
+                },
+                "isoContainerCode": {
+                  "type": "string"
+                },
+                "carrierCode": {
+                  "type": "string"
+                },
+                "aarCarType": {
+                  "type": "string"
+                },
+                "sealNumbers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "chassisInitial": {
+                  "type": "string"
+                },
+                "chassisNumber": {
+                  "type": "integer"
+                },
+                "terminals": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "locationIdentifier": {
+                        "type": "string"
+                      },
+                      "portName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "interchangeMoveAuthorities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "carrierCode": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "shipmentInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "referenceIdQualifier": {
+                        "type": "string"
+                      },
+                      "referenceId": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "extendedReferenceInfo": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ExtendedReferenceInfo"
+                        }
+                      },
+                      "lineItems": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "commodityDescription": {
+                              "type": "string"
+                            },
+                            "marksAndNumbers": {
+                              "type": "string"
+                            },
+                            "commodityCode": {
+                              "type": "string"
+                            },
+                            "customsShipmentValue": {
+                              "type": "number"
+                            },
+                            "weight": {
+                              "type": "number"
+                            },
+                            "cbpBarcodeNumber": {
+                              "type": "string"
+                            },
+                            "smallestExteriorPackageType": {
+                              "type": "string"
+                            },
+                            "originCountryCode": {
+                              "type": "string"
+                            },
+                            "destinationCountryCode": {
+                              "type": "string"
+                            },
+                            "currencyCode": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "intermodalStatusDetails": {
+            "type": "object",
+            "properties": {
+              "shipmentStatusTime": {
+                "type": "string"
+              }
+            }
+          },
+          "specialHandlingCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "protectiveService": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ruleCode": {
+                  "type": "string"
+                },
+                "optimalTemperature": {
+                  "type": "number"
+                },
+                "scac": {
+                  "type": "string"
+                },
+                "fsac": {
+                  "type": "string"
+                },
+                "cityName": {
+                  "type": "string"
+                },
+                "stateOrProvince": {
+                  "type": "string"
+                },
+                "precooled": {
+                  "type": "boolean"
+                },
+                "originTemperature": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "originStation": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "originJunction": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "destinationStation": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "destinationJunction": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "parties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Party"
+            }
+          },
+          "route": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteEntry"
+            }
+          },
+          "emptyCarDispositions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "destinationConsigneeName": {
+                  "type": "string"
+                },
+                "destinationConsigneeIdQualifier": {
+                  "type": "string"
+                },
+                "destinationConsigneeId": {
+                  "type": "string"
+                },
+                "destinationCityName": {
+                  "type": "string"
+                },
+                "destinationStateOrProvince": {
+                  "type": "string"
+                },
+                "destinationPostalCode": {
+                  "type": "string"
+                },
+                "destinationCountryCode": {
+                  "type": "string"
+                },
+                "destinationAddress": {
+                  "type": "string"
+                },
+                "destinationRoute": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RouteEntry"
+                  }
+                }
+              }
+            }
+          },
+          "lineItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "type": "integer"
+                },
+                "descriptions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ladingDescription": {
+                        "type": "string"
+                      },
+                      "commodityCode": {
+                        "type": "string"
+                      },
+                      "packagingCode": {
+                        "type": "string"
+                      },
+                      "marksAndNumbers": {
+                        "type": "string"
+                      },
+                      "marksAndNumbersQualifier": {
+                        "type": "string"
+                      },
+                      "hazmatRatingCommodityCodeQualifier": {
+                        "type": "string"
+                      },
+                      "hazmatRatingCommodityCode": {
+                        "type": "string"
+                      },
+                      "compartmentIdCode": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "quantity": {
+                  "type": "object",
+                  "properties": {
+                    "billedAsQuantity": {
+                      "type": "number"
+                    },
+                    "weight": {
+                      "type": "number"
+                    },
+                    "volume": {
+                      "type": "number"
+                    },
+                    "ladingQuantity": {
+                      "type": "number"
+                    },
+                    "packagingFormCode": {
+                      "type": "string"
+                    },
+                    "dunnageDescription": {
+                      "type": "string"
+                    },
+                    "weightUnitCode": {
+                      "type": "string"
+                    },
+                    "typeOfServiceCode": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "measurements": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "measurementReferenceIdCode": {
+                        "type": "string"
+                      },
+                      "measurementQualifier": {
+                        "type": "string"
+                      },
+                      "measurementValue": {
+                        "type": "number"
+                      },
+                      "rangeMinimum": {
+                        "type": "number"
+                      },
+                      "rangeMaximum": {
+                        "type": "number"
+                      },
+                      "measurementSignificanceCode": {
+                        "type": "string"
+                      },
+                      "measurementAttributeCode": {
+                        "type": "string"
+                      },
+                      "surfaceLayerPositionCode": {
+                        "type": "string"
+                      },
+                      "measurementMethodOrDevice": {
+                        "type": "string"
+                      },
+                      "codeListQualifier": {
+                        "type": "string"
+                      },
+                      "industryCode": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "priceAuthorities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "referenceIdQualifier": {
+                        "type": "string"
+                      },
+                      "referenceId": {
+                        "type": "string"
+                      },
+                      "primaryPublicationAuthority": {
+                        "type": "string"
+                      },
+                      "regulatoryAgencyCode": {
+                        "type": "string"
+                      },
+                      "tariffAgencyCode": {
+                        "type": "string"
+                      },
+                      "issuingCarrierIdentifier": {
+                        "type": "string"
+                      },
+                      "suffix": {
+                        "type": "string"
+                      },
+                      "itemNumber": {
+                        "type": "string"
+                      },
+                      "supplementIdentifier": {
+                        "type": "string"
+                      },
+                      "sectionNumber": {
+                        "type": "string"
+                      },
+                      "itemNumberSuffix": {
+                        "type": "string"
+                      },
+                      "effectiveDate": {
+                        "type": "string"
+                      },
+                      "expirationDate": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "hazardousInfo": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ladingUnitCode": {
+                  "type": "string"
+                },
+                "ladingQuantity": {
+                  "type": "number"
+                },
+                "unIdCode": {
+                  "type": "string"
+                },
+                "unPageNumber": {
+                  "type": "string"
+                },
+                "commodityCode": {
+                  "type": "string"
+                },
+                "unitCode": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "number"
+                },
+                "compartmentIdCode": {
+                  "type": "string"
+                },
+                "residueIndicatorCode": {
+                  "type": "string"
+                },
+                "packagingGroupCode": {
+                  "type": "string"
+                },
+                "interimHazmatRegulatoryNumber": {
+                  "type": "string"
+                },
+                "industryCode": {
+                  "type": "string"
+                },
+                "classificationInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "hazardousClass": {
+                        "type": "string"
+                      },
+                      "hazardousPlacardNotation": {
+                        "type": "string"
+                      },
+                      "hazardousEndorsement": {
+                        "type": "string"
+                      },
+                      "reportableQuantityCode": {
+                        "type": "string"
+                      },
+                      "flashpointUnitCode": {
+                        "type": "string"
+                      },
+                      "flashpointTemperature": {
+                        "type": "number"
+                      },
+                      "controlUnitCode": {
+                        "type": "string"
+                      },
+                      "controlTemperature": {
+                        "type": "number"
+                      },
+                      "emergencyUnitCode": {
+                        "type": "string"
+                      },
+                      "emergencyTemperature": {
+                        "type": "number"
+                      },
+                      "netExplosiveWeightUnitCode": {
+                        "type": "string"
+                      },
+                      "netExplosiveWeight": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "hazmatShippingNameInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "hazmatShippingName": {
+                        "type": "string"
+                      },
+                      "nosIndicatorCode": {
+                        "type": "string"
+                      },
+                      "railSafetySensitiveMaterial": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                },
+                "hazmatAdditionalInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "hazmatShippingInfo": {
+                        "type": "string"
+                      },
+                      "hazmatShippingInfoOverflow": {
+                        "type": "string"
+                      },
+                      "hazardZoneCode": {
+                        "type": "string"
+                      },
+                      "radioactiveActivity": {
+                        "type": "number"
+                      },
+                      "radioactiveTransportIndex": {
+                        "type": "number"
+                      },
+                      "fumigationDate": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "epaRequiredData": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "epaWasteStreamNumberCode": {
+                        "type": "string"
+                      },
+                      "wasteCharacteristicsCode": {
+                        "type": "string"
+                      },
+                      "hazardousWasteNumberStateOrProvince": {
+                        "type": "string"
+                      },
+                      "hazardousWasteNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "canadianDangerousRequirements": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "emergencyResponsePlanNumber": {
+                        "type": "string"
+                      },
+                      "communicationNumber": {
+                        "type": "string"
+                      },
+                      "packagingGroupCode": {
+                        "type": "string"
+                      },
+                      "firstSubsidiaryClassification": {
+                        "type": "string"
+                      },
+                      "secondSubsidiaryClassification": {
+                        "type": "string"
+                      },
+                      "thirdSubsidiaryClassification": {
+                        "type": "string"
+                      },
+                      "subsidiaryRiskIndicator": {
+                        "type": "string"
+                      },
+                      "netExplosiveQuantity": {
+                        "type": "number"
+                      },
+                      "canadianHazardousNotation": {
+                        "type": "string"
+                      },
+                      "specialCommodityIndicatorCode": {
+                        "type": "string"
+                      },
+                      "additionalCommunicationNumber": {
+                        "type": "string"
+                      },
+                      "netExplosiveQuantityUnitCode": {
+                        "type": "string"
+                      },
+                      "hazmatShipmentInfoQualifier": {
+                        "type": "string"
+                      },
+                      "hazmatQuantity": {
+                        "type": "number"
+                      },
+                      "hazmatQuantityUnitCode": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "transborderHazardousRequirements": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "hazardousClassification": {
+                        "type": "string"
+                      },
+                      "hazardousPlacardNotation": {
+                        "type": "string"
+                      },
+                      "hazardousEndorsement": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "hazmatReferenceNumbers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "referenceIdQualifier": {
+                        "type": "string"
+                      },
+                      "referenceId": {
+                        "type": "string"
+                      },
+                      "date": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "administrativeContacts": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdministrativeContact"
+                  }
+                },
+                "parties": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Party"
+                  }
+                }
+              }
+            }
+          },
+          "hazardousCertifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "release": {
+            "type": "object",
+            "properties": {
+              "releaseDate": {
+                "type": "string"
+              },
+              "releaseTime": {
+                "type": "string"
+              }
+            }
+          },
+          "defaultReceiver": {
+            "type": "string"
+          },
+          "waybillTemplateId": {
+            "type": "integer"
+          },
+          "waybillTemplateName": {
+            "type": "string"
+          },
+          "waybillNumberSuffix": {
+            "type": "string"
+          },
+          "originCarrierCode": {
+            "type": "string"
+          },
+          "consigneeLocationId": {
+            "type": "integer"
+          },
+          "shipperLocationId": {
+            "type": "integer"
+          },
+          "inCareOfLocationId": {
+            "type": "integer"
+          },
+          "freightBillPartyLocationId": {
+            "type": "integer"
+          },
+          "pickupPartyLocationId": {
+            "type": "integer"
+          },
+          "waybillNumber": {
+            "type": "integer"
+          },
+          "waybillDate": {
+            "type": "string"
+          },
+          "billOfLadingNumber": {
+            "type": "string"
+          },
+          "preparationDate": {
+            "type": "string"
+          },
+          "preparationTime": {
+            "type": "string"
+          },
+          "revisionNumber": {
+            "type": "integer"
+          },
+          "revisionTime": {
+            "type": "string"
+          },
+          "armsTrackingId": {
+            "type": "string"
+          },
+          "resourceType": {
+            "type": "string"
+          },
+          "resourceId": {
+            "type": "integer"
+          },
+          "uuid": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Station": {
+        "type": "object",
+        "properties": {
+          "fsac": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "stateOrProvince": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "splc": {
+            "type": "string"
+          }
+        }
+      },
+      "CommunicationNumber": {
+        "type": "object",
+        "properties": {
+          "qualifier": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          }
+        }
+      },
+      "AdministrativeContact": {
+        "type": "object",
+        "properties": {
+          "contactFunctionCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "communicationNumbers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommunicationNumber"
+            }
+          },
+          "contactInquiryReference": {
+            "type": "string"
+          }
+        }
+      },
+      "BillingInfo": {
+        "type": "object",
+        "properties": {
+          "origin": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "carrierCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ReferenceInfo": {
+        "type": "object",
+        "properties": {
+          "referenceIdQualifier": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Party": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "idCode": {
+            "type": "string"
+          },
+          "entitySubIdentifierRelationshipCode": {
+            "type": "string"
+          },
+          "entitySubIdentifierCode": {
+            "type": "string"
+          },
+          "additionalNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "address": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "stateOrProvince": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "locationQualifier": {
+            "type": "string"
+          },
+          "locationIdentifier": {
+            "type": "string"
+          },
+          "countrySubdivisionCode": {
+            "type": "string"
+          },
+          "administrativeContacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdministrativeContact"
+            }
+          },
+          "billingInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BillingInfo"
+            }
+          },
+          "referenceInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReferenceInfo"
+            }
+          }
+        }
+      },
+      "ExtendedReferenceInfo": {
+        "type": "object",
+        "properties": {
+          "referenceIdQualifier": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        }
+      },
+      "RouteEntry": {
+        "type": "object",
+        "properties": {
+          "carrierCode": {
+            "type": "string"
+          },
+          "junctionCode": {
+            "type": "string"
+          },
+          "splc": {
+            "type": "string"
+          },
+          "intermodalServiceCode": {
+            "type": "string"
+          },
+          "additionalSwitchCarrierCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

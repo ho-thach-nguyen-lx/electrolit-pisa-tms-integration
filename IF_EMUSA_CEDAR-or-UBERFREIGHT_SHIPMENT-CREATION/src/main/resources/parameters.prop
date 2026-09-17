@@ -1,0 +1,5 @@
+#Thu Sep 17 14:24:45 UTC 2026
+CEDAR=https\://api-lg.arms.cedarai.com/ims/waybills/bill-of-lading
+EMUSA=http\://ds1app01.pisa.com.mx\:8000/sap/opu/odata/sap
+EM_HOST=ewm-ptl-cdn3-nonpr-5c981bcf-edf6-4263-869a-2c9177a1fe6f.us10.a.eventmesh.integration.cloud.sap
+UBER_FREIGHT=https\://uatapi.uberfreight.com

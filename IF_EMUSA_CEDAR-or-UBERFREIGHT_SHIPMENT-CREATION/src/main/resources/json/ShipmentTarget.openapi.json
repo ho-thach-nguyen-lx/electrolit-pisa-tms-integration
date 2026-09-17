@@ -1,0 +1,129 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ShipmentTarget",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/shipments": {
+      "post": {
+        "summary": "Create shipment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Shipment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Shipment": {
+        "type": "object",
+        "properties": {
+          "domainId": { "type": "integer" },
+          "accountId": { "type": "integer" },
+          "action": { "type": "string" },
+          "deliveryNumber": { "type": "string" },
+          "equipmentTypeCode": { "type": "string" },
+          "paymentMethodType": { "type": "string" },
+          "shipmentType": { "type": "string" },
+          "stops": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "action": { "type": "string" },
+                "type": { "type": "string" },
+                "sequenceNumber": { "type": "integer" },
+                "earliestDateTime": { "type": "string" },
+                "latestDateTime": { "type": "string" },
+                "location": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "address1": { "type": "string" },
+                        "city": { "type": "string" },
+                        "state": { "type": "string" },
+                        "zip": { "type": "string" },
+                        "country": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "freights": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "action": { "type": "string" },
+                "originStopSequence": { "type": "integer" },
+                "destinationStopSequence": { "type": "integer" },
+                "orderType": { "type": "string" },
+                "hot": { "type": "boolean" },
+                "lineItems": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "action": { "type": "string" },
+                      "id": { "type": "string" },
+                      "productNumber": { "type": "string" },
+                      "description": { "type": "string" },
+                      "freightType": { "type": "string" },
+                      "commodityDescription": { "type": "string" },
+                      "ltlClass": { "type": "string" },
+                      "nmfc": { "type": "string" },
+                      "quantity": { "type": "string" },
+                      "quantityUom": { "type": "string" },
+                      "handlingUnit": { "type": "string" },
+                      "handlingUnitUom": { "type": "string" },
+                      "weight": { "type": "string" },
+                      "weightUom": { "type": "string" }
+                    }
+                  }
+                },
+                "references": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "value": { "type": "string" }
+                    }
+                  }
+                },
+                "supportInfos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "value": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+  <!-- ===================== Root ===================== -->
+  <xsd:element name="ShipmentSet" type="ShipmentSetType"/>
+
+  <xsd:complexType name="ShipmentSetType">
+    <xsd:sequence>
+      <xsd:element name="Shipment" type="ShipmentType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== Shipment ===================== -->
+  <xsd:complexType name="ShipmentType">
+    <xsd:sequence>
+      <xsd:element name="PaymentMethodType" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Action" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="ShipmentType" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="DomainId" type="xsd:integer" minOccurs="0"/>
+      <xsd:element name="AccountId" type="xsd:integer" minOccurs="0"/>
+      <xsd:element name="DeliveryNumber" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="ShippingCondition" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Stops" type="StopsWrapperType" minOccurs="0"/>
+      <xsd:element name="EquipmentTypeCode" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Freights" type="FreightsWrapperType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== Stops (outer wrapper -> inner repeating) ===================== -->
+  <xsd:complexType name="StopsWrapperType">
+    <xsd:sequence>
+      <xsd:element name="Stops" type="StopType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="StopType">
+    <xsd:sequence>
+      <xsd:element name="Action" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Type" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="EarliestDateTime" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="SequenceNumber" type="xsd:integer" minOccurs="0"/>
+      <xsd:element name="LatestDateTime" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Location" type="LocationOuterType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== Location (outer wrapper -> inner single) ===================== -->
+  <xsd:complexType name="LocationOuterType">
+    <xsd:sequence>
+      <xsd:element name="Location" type="LocationType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="LocationType">
+    <xsd:sequence>
+      <xsd:element name="Address" type="AddressOuterType" minOccurs="0"/>
+      <xsd:element name="Id" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Name" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== Address (outer wrapper -> inner single) ===================== -->
+  <xsd:complexType name="AddressOuterType">
+    <xsd:sequence>
+      <xsd:element name="Address" type="AddressType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AddressType">
+    <xsd:sequence>
+      <xsd:element name="Zip" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="State" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Country" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Address1" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="City" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== Freights (outer wrapper -> inner repeating) ===================== -->
+  <xsd:complexType name="FreightsWrapperType">
+    <xsd:sequence>
+      <xsd:element name="Freights" type="FreightType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="FreightType">
+    <xsd:sequence>
+      <xsd:element name="Action" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="LineItems" type="LineItemsWrapperType" minOccurs="0"/>
+      <xsd:element name="OrderType" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="DestinationStopSequence" type="xsd:integer" minOccurs="0"/>
+      <xsd:element name="SupportInfos" type="SupportInfosWrapperType" minOccurs="0"/>
+      <xsd:element name="References" type="ReferencesWrapperType" minOccurs="0"/>
+      <xsd:element name="Hot" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="OriginStopSequence" type="xsd:integer" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== LineItems (outer wrapper -> inner repeating) ===================== -->
+  <xsd:complexType name="LineItemsWrapperType">
+    <xsd:sequence>
+      <xsd:element name="LineItems" type="LineItemType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="LineItemType">
+    <xsd:sequence>
+      <xsd:element name="FreightType" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Action" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="CommodityDescription" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="WeightUom" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Quantity" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="ProductNumber" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="LtlClass" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Weight" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="HandlingUnit" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Nmfc" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="HandlingUnitUom" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Id" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="QuantityUom" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== SupportInfos (outer wrapper -> inner repeating) ===================== -->
+  <xsd:complexType name="SupportInfosWrapperType">
+    <xsd:sequence>
+      <xsd:element name="SupportInfos" type="SupportInfoType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SupportInfoType">
+    <xsd:sequence>
+      <xsd:element name="Value" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Name" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ===================== References (outer wrapper -> inner repeating) ===================== -->
+  <xsd:complexType name="ReferencesWrapperType">
+    <xsd:sequence>
+      <xsd:element name="References" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ReferenceType">
+    <xsd:sequence>
+      <xsd:element name="Value" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Name" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

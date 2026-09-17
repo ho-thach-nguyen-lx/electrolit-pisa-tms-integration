@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <!-- Root element -->
+  <xs:element name="ShipmentSet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Shipment" type="ShipmentType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Shipment -->
+  <xs:complexType name="ShipmentType">
+    <xs:sequence>
+      <xs:element name="CarrierId" type="xs:string" minOccurs="0"/>
+      <xs:element name="DeliveryNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="ShippingCondition" type="xs:string" minOccurs="0"/>
+      <xs:element name="Waybill" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Waybill" type="WaybillType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Waybill (inner) -->
+  <xs:complexType name="WaybillType">
+    <xs:sequence>
+      <xs:element name="ShipmentId" type="xs:string" minOccurs="0"/>
+
+      <xs:element name="Parties" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Parties" type="PartyType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="LineItems" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="LineItems" type="LineItemType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="WeightUnitCode" type="xs:string" minOccurs="0"/>
+
+      <xs:element name="OriginStation" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="OriginStation" type="OriginStationType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="DestinationStation" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="DestinationStation" type="DestinationStationType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="ShipmentQualifier" type="xs:string" minOccurs="0"/>
+      <xs:element name="WaybillTemplateId" type="xs:string" minOccurs="0"/>
+      <xs:element name="BillOfLadingNumber" type="xs:string" minOccurs="0"/>
+
+      <xs:element name="ExtendedReferenceInfo" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ExtendedReferenceInfo" type="ExtendedReferenceInfoType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="ShipmentPaymentMethod" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Party -->
+  <xs:complexType name="PartyType">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:string" minOccurs="0"/>
+      <xs:element name="StateOrProvince" type="xs:string" minOccurs="0"/>
+      <xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="CityName" type="xs:string" minOccurs="0"/>
+      <xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="PartyType" type="xs:string" minOccurs="0"/>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- LineItem -->
+  <xs:complexType name="LineItemType">
+    <xs:sequence>
+      <xs:element name="Descriptions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Descriptions" type="DescriptionType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Number" type="xs:integer" minOccurs="0"/>
+      <xs:element name="Quantity" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Quantity" type="QuantityType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Description -->
+  <xs:complexType name="DescriptionType">
+    <xs:sequence>
+      <xs:element name="CommodityCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="LadingDescription" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Quantity -->
+  <xs:complexType name="QuantityType">
+    <xs:sequence>
+      <xs:element name="WeightUnitCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="LadingQuantity" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="PackagingFormCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="Weight" type="xs:decimal" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- OriginStation -->
+  <xs:complexType name="OriginStationType">
+    <xs:sequence>
+      <xs:element name="StateOrProvince" type="xs:string" minOccurs="0"/>
+      <xs:element name="CityName" type="xs:string" minOccurs="0"/>
+      <xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- DestinationStation -->
+  <xs:complexType name="DestinationStationType">
+    <xs:sequence>
+      <xs:element name="StateOrProvince" type="xs:string" minOccurs="0"/>
+      <xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="CityName" type="xs:string" minOccurs="0"/>
+      <xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ExtendedReferenceInfo -->
+  <xs:complexType name="ExtendedReferenceInfoType">
+    <xs:sequence>
+      <xs:element name="Description" type="xs:string" minOccurs="0"/>
+      <xs:element name="ReferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="ReferenceIdQualifier" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,308 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Waybill",
+    "description": "Target JSON structure for the CPI XML-to-JSON waybill mapping.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/waybill": {
+      "post": {
+        "summary": "Create waybill",
+        "operationId": "createWaybill",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Shipment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shipment"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Shipment": {
+        "type": "object",
+        "required": ["carrierId", "waybill"],
+        "properties": {
+          "carrierId": {
+            "type": "integer",
+            "description": "Hardcoded: 738832806",
+            "example": 738832806
+          },
+          "waybill": {
+            "$ref": "#/components/schemas/Waybill"
+          }
+        }
+      },
+      "Waybill": {
+        "type": "object",
+        "required": [
+          "billOfLadingNumber",
+          "shipmentId",
+          "shipmentPaymentMethod",
+          "shipmentQualifier",
+          "waybillTemplateId",
+          "weightUnitCode"
+        ],
+        "properties": {
+          "billOfLadingNumber": {
+            "type": "string",
+            "description": "Freights[].References[\"DELIVERY NUMBER\" or \"PRIMARY REFERENCE\"].Value",
+            "example": "80005819"
+          },
+          "destinationStation": {
+            "type": "array",
+            "description": "0..* — one entry per applicable destination Stops[].Location[]",
+            "items": {
+              "$ref": "#/components/schemas/DestinationStation"
+            }
+          },
+          "extendedReferenceInfo": {
+            "type": "array",
+            "description": "One entry per Stops[].Location[]",
+            "items": {
+              "$ref": "#/components/schemas/ExtendedReferenceInfo"
+            }
+          },
+          "lineItems": {
+            "type": "array",
+            "description": "0..* — one entry per Freights[].LineItems[]",
+            "items": {
+              "$ref": "#/components/schemas/LineItem"
+            }
+          },
+          "originStation": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "parties": {
+            "type": "array",
+            "description": "0..* — one entry per Stops[]",
+            "items": {
+              "$ref": "#/components/schemas/Party"
+            }
+          },
+          "shipmentId": {
+            "type": "string",
+            "description": "Freights[].References[\"DELIVERY NUMBER\" or \"PRIMARY REFERENCE\"].Value",
+            "example": "80005819"
+          },
+          "shipmentPaymentMethod": {
+            "type": "string",
+            "description": "PaymentMethodType",
+            "example": "PP"
+          },
+          "shipmentQualifier": {
+            "type": "string",
+            "description": "Hardcoded: B",
+            "enum": ["B"],
+            "example": "B"
+          },
+          "waybillTemplateId": {
+            "type": "integer",
+            "description": "Hardcoded: 812370943",
+            "example": 812370943
+          },
+          "weightUnitCode": {
+            "$ref": "#/components/schemas/WeightUnitCode"
+          }
+        }
+      },
+      "Station": {
+        "type": "object",
+        "required": ["countryCode", "stateOrProvince"],
+        "properties": {
+          "cityName": {
+            "type": "string",
+            "description": "Stops[].Location[].Address.City",
+            "example": "Waco"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Stops[].Location[].Address.Country | convert USA to US",
+            "example": "US"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "Stops[].Location[].Address.Zip (destination only)",
+            "example": "90601"
+          },
+          "stateOrProvince": {
+            "type": "string",
+            "description": "Stops[].Location[].Address.State",
+            "example": "TX"
+          }
+        }
+      },
+      "DestinationStation": {
+        "type": "object",
+        "properties": {
+          "cityName": {
+            "type": "string",
+            "description": "Stops[].Location[].Address.City",
+            "example": "Waco"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "0..1 — Stops[].Location[].Address.Country | convert USA to US",
+            "example": "US"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "Stops[].Location[].Address.Zip (destination only)",
+            "example": "90601"
+          },
+          "stateOrProvince": {
+            "type": "string",
+            "description": "0..1 — Stops[].Location[].Address.State",
+            "example": "TX"
+          }
+        }
+      },
+      "ExtendedReferenceInfo": {
+        "type": "object",
+        "required": ["description", "referenceId", "referenceIdQualifier"],
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Hardcoded: SAP_BUSINESS_PARTNER",
+            "enum": ["SAP_BUSINESS_PARTNER"],
+            "example": "SAP_BUSINESS_PARTNER"
+          },
+          "referenceId": {
+            "type": "string",
+            "description": "Stops[].Location[].Id",
+            "example": "410000061"
+          },
+          "referenceIdQualifier": {
+            "type": "string",
+            "description": "Hardcoded: CR",
+            "enum": ["CR"],
+            "example": "CR"
+          }
+        }
+      },
+      "LineItem": {
+        "type": "object",
+        "required": ["number", "quantity"],
+        "properties": {
+          "descriptions": {
+            "type": "array",
+            "description": "0..*",
+            "items": {
+              "$ref": "#/components/schemas/Description"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "example": 1
+          },
+          "quantity": {
+            "$ref": "#/components/schemas/Quantity"
+          }
+        }
+      },
+      "Description": {
+        "type": "object",
+        "required": ["commodityCode", "ladingDescription"],
+        "properties": {
+          "commodityCode": {
+            "type": "string",
+            "description": "Hardcoded: 2086130",
+            "enum": ["2086130"],
+            "example": "2086130"
+          },
+          "ladingDescription": {
+            "type": "string",
+            "description": "Freights[].LineItems[].Description",
+            "example": "ELECTROLIT STRAWBERRY/FRESA 625ML/21OZ"
+          }
+        }
+      },
+      "Quantity": {
+        "type": "object",
+        "required": ["ladingQuantity", "weight", "weightUnitCode"],
+        "properties": {
+          "ladingQuantity": {
+            "type": "number",
+            "example": 8
+          },
+          "packagingFormCode": {
+            "type": "string",
+            "description": "See packaging form code mapping table",
+            "example": "CV"
+          },
+          "weight": {
+            "type": "number",
+            "example": 12
+          },
+          "weightUnitCode": {
+            "$ref": "#/components/schemas/WeightUnitCode"
+          }
+        }
+      },
+      "Party": {
+        "type": "object",
+        "required": ["countryCode", "name", "partyType"],
+        "properties": {
+          "address": {
+            "type": "array",
+            "description": "e.g. [\"2225 Workman Mill Rd\"]",
+            "items": {
+              "type": "string"
+            },
+            "example": ["2225 Workman Mill Rd"]
+          },
+          "cityName": {
+            "type": "string",
+            "example": "Waco"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "convert USA to US",
+            "example": "US"
+          },
+          "name": {
+            "type": "string",
+            "example": "ELECTROLIT MANUFACTURING USA INC"
+          },
+          "partyType": {
+            "type": "string",
+            "description": "e.g. SH (shipper), CN (consignee)",
+            "example": "SH"
+          },
+          "postalCode": {
+            "type": "string",
+            "example": "90601"
+          },
+          "stateOrProvince": {
+            "type": "string",
+            "example": "TX"
+          }
+        }
+      },
+      "WeightUnitCode": {
+        "type": "string",
+        "description": "convert LBS to L, KGM to K",
+        "enum": ["L", "K"],
+        "example": "L"
+      }
+    }
+  }
+}

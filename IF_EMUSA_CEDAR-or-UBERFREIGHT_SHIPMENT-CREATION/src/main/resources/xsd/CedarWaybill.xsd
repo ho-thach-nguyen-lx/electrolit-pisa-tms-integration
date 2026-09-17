@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <!--
+    NOTE: JSON has no concept of a "root element name" the way XML does.
+    This schema assumes the root element is called "Shipment" once the
+    JSON payload is converted to XML (e.g. via the CPI JSON-to-XML
+    converter). Rename the root element below if a different name is
+    expected downstream.
+
+    Field-level comments mirror the "// ..." mapping notes from the
+    source JSON so the source/target relationship stays traceable.
+  -->
+
+  <!-- Root element -->
+  <xs:element name="Shipment">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- hardcode 738832806 -->
+        <xs:element name="carrierId" type="xs:long"/>
+        <xs:element name="waybill" type="WaybillType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- waybill -->
+  <xs:complexType name="WaybillType">
+    <xs:sequence>
+      <!-- Freights[].References["DELIVERY NUMBER" or "PRIMARY REFERENCE"].Value -->
+      <xs:element name="billOfLadingNumber" type="xs:string"/>
+
+      <xs:element name="destinationStation" type="StationType"/>
+
+      <!-- repeating: one entry per Stops[].Location[] -->
+      <xs:element name="extendedReferenceInfo" type="ExtendedReferenceInfoType"
+                  minOccurs="0" maxOccurs="unbounded"/>
+
+      <!-- repeating: one entry per Freights[].LineItems[] -->
+      <xs:element name="lineItems" type="LineItemType"
+                  minOccurs="1" maxOccurs="unbounded"/>
+
+      <xs:element name="originStation" type="StationType"/>
+
+      <!-- repeating: one entry per Stops[] -->
+      <xs:element name="parties" type="PartyType"
+                  minOccurs="1" maxOccurs="unbounded"/>
+
+      <!-- Freights[].References["DELIVERY NUMBER" or "PRIMARY REFERENCE"].Value -->
+      <xs:element name="shipmentId" type="xs:string"/>
+
+      <!-- PaymentMethodType -->
+      <xs:element name="shipmentPaymentMethod" type="xs:string"/>
+
+      <!-- hardcode "B" -->
+      <xs:element name="shipmentQualifier" type="xs:string" fixed="B"/>
+
+      <!-- hardcode 812370943 -->
+      <xs:element name="waybillTemplateId" type="xs:long" fixed="812370943"/>
+
+      <!-- convert "LBS" to "L", "KGM" to "K" -->
+      <xs:element name="weightUnitCode" type="WeightUnitCodeType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Shared by originStation / destinationStation -->
+  <xs:complexType name="StationType">
+    <xs:sequence>
+      <!-- Stops[].Location[].Address.City -->
+      <xs:element name="cityName" type="xs:string" minOccurs="0"/>
+      <!-- Stops[].Location[].Address.Country | convert USA to US -->
+      <xs:element name="countryCode" type="xs:string"/>
+      <!-- Stops[].Location[].Address.Zip (destination only) -->
+      <xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+      <!-- Stops[].Location[].Address.State -->
+      <xs:element name="stateOrProvince" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- extendedReferenceInfo[] -->
+  <xs:complexType name="ExtendedReferenceInfoType">
+    <xs:sequence>
+      <!-- hardcode SAP_BUSINESS_PARTNER -->
+      <xs:element name="description" type="xs:string" fixed="SAP_BUSINESS_PARTNER"/>
+      <!-- Stops[].Location[].Id -->
+      <xs:element name="referenceId" type="xs:string"/>
+      <!-- hardcode "CR" -->
+      <xs:element name="referenceIdQualifier" type="xs:string" fixed="CR"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- lineItems[] -->
+  <xs:complexType name="LineItemType">
+    <xs:sequence>
+      <!-- repeating -->
+      <xs:element name="descriptions" type="DescriptionType"
+                  minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="number" type="xs:integer"/>
+      <xs:element name="quantity" type="QuantityType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- lineItems[].descriptions[] -->
+  <xs:complexType name="DescriptionType">
+    <xs:sequence>
+      <!-- hardcode 2086130 -->
+      <xs:element name="commodityCode" type="xs:string" fixed="2086130"/>
+      <!-- Freights[].LineItems[].Description -->
+      <xs:element name="ladingDescription" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- lineItems[].quantity -->
+  <xs:complexType name="QuantityType">
+    <xs:sequence>
+      <xs:element name="ladingQuantity" type="xs:decimal"/>
+      <!-- see packaging form code mapping table -->
+      <xs:element name="packagingFormCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="weight" type="xs:decimal"/>
+      <!-- convert "LBS" to "L", "KGM" to "K" -->
+      <xs:element name="weightUnitCode" type="WeightUnitCodeType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- parties[] (one per Stops[]) -->
+  <xs:complexType name="PartyType">
+    <xs:sequence>
+      <!-- repeating; e.g. ["2225 Workman Mill Rd"] -->
+      <xs:element name="address" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="cityName" type="xs:string" minOccurs="0"/>
+      <xs:element name="countryCode" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <!-- e.g. SH (shipper), CN (consignee) -->
+      <xs:element name="partyType" type="xs:string"/>
+      <xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="stateOrProvince" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- convert "LBS" to "L", "KGM" to "K" -->
+  <xs:simpleType name="WeightUnitCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="L"/>
+      <xs:enumeration value="K"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
