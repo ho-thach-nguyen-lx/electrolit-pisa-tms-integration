@@ -1,0 +1,104 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Delivery Notification API",
+    "description": "API for posting final delivery notifications",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://{host}/http/DeliveryNotification",
+      "variables": {
+        "host": {
+          "default": "your-cpi-tenant.hana.ondemand.com"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "summary": "Submit final delivery notification",
+        "operationId": "postDeliveryNotification",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeliveryNotification"
+              },
+              "example": {
+                "Delivery": "0080009571",
+                "FinDlvDate": "2025-12-22T22:01:00"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Delivery notification processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryNotification"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DeliveryNotification": {
+        "type": "object",
+        "required": ["Delivery", "FinDlvDate"],
+        "properties": {
+          "Delivery": {
+            "type": "string",
+            "description": "Delivery number/ID",
+            "example": "0080009571"
+          },
+          "FinDlvDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Final delivery date/time in ISO 8601 format",
+            "example": "2025-12-22T22:01:00"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
